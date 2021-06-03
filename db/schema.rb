@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_30_164321) do
+ActiveRecord::Schema.define(version: 2021_06_03_110024) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "posts", force: :cascade do |t|
     t.text "content"
@@ -27,6 +33,7 @@ ActiveRecord::Schema.define(version: 2021_05_30_164321) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "email"
     t.string "password_digest"
+    t.boolean "is_admin", default: false
   end
 
   add_foreign_key "posts", "users"

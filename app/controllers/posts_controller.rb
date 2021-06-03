@@ -1,9 +1,11 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :require_login, except: %i[index show]
+  before_action :require_owner, only: %i[update edit destroy]
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.paginate(page: params[:page], per_page: 5)
   end
 
   # GET /posts/1 or /posts/1.json
@@ -65,5 +67,11 @@ class PostsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:content, :user_id)
+    end
+
+    def require_owner
+      if current_user != @post.user
+        redirect_to posts_path, notice: "You are Not authorized"
+      end
     end
 end

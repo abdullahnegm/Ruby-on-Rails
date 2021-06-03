@@ -1,0 +1,19 @@
+<% objs.each.with_index(1) do |obj, index| %>
+
+    <tr>
+        <td scope="row"><%= index %></td>
+        <td><%= obj.content %></td>
+        <td><%= obj.user.name %></td>
+    <td><%= link_to 'Show', obj, class: "btn-sm btn-info" %></td>
+    <% if logged_in? %>
+    <% if current_user == obj.user || current_user.is_admin? %>
+        <td><%= link_to 'Edit', edit_post_path(obj), class: "btn-sm btn-primary" %></td>
+        <td><%= link_to 'Destroy', obj, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-sm btn-danger" %></td>
+    <% else %>
+        <td></td>
+        <td></td>
+    <% end %>
+    <% end %>   
+    </tr>
+
+<% end %>

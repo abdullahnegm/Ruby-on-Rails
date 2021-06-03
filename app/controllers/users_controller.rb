@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+  # before_action :require_login, except: %i[index show]
+  before_action :require_owner, only: %i[update edit]
 
   # GET /users or /users.json
   def index
@@ -25,7 +27,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: "User was successfully created." }
+        format.html { redirect_to root_path, notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -64,6 +66,12 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :age)
+      params.require(:user).permit(:name, :age, :password, :email.downcase)
+    end
+
+    def require_owner
+      if current_user != @user
+        redirect_to users_path, notice: "You are Not authorized"
+      end
     end
 end
