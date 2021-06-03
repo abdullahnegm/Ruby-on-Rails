@@ -8,9 +8,19 @@ class CreateCategoriesTest < ActionDispatch::IntegrationTest
         assert_difference 'Category.count', 1 do
             post categories_path, params: { category: { name: "Sports" }} 
         end
-        get categories_path
-        assert_template 'categories/index'
+        assert_template 'categories/index', follow_redirect!
         assert_match "Sports", response.body
+    end
+
+    test "Invalid Category submission result" do
+        get new_category_path
+        assert_template 'categories/new'
+        assert_no_difference 'Category.count' do
+            post categories_path, params: { category: { name: " " }} 
+        end
+        assert_template 'categories/new'
+        assert_select "li.panel-error"
+
     end
 
 end
