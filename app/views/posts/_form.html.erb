@@ -17,8 +17,10 @@
   </div>
 
   <div class="field form-group">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id, class: 'form-control m-2' %>
+    <%= form.label :Categories %>
+    <%= form.collection_check_boxes :category_ids, Category.all, :id, :name do |cb| %>
+      <% cb.label(class: "form-check-label mx-1")  {cb.check_box(class: "form-check-input mx-3") + cb.text} %>
+    <% end %>
   </div>
 
   <div class="actions">
