@@ -1,0 +1,16 @@
+require 'test_helper'
+
+class CreateCategoriesTest < ActionDispatch::IntegrationTest
+
+    test "Category Form and Create Category" do
+        get new_category_path
+        assert_template 'categories/new'
+        assert_difference 'Category.count', 1 do
+            post categories_path, params: { category: { name: "Sports" }} 
+        end
+        get categories_path
+        assert_template 'categories/index'
+        assert_match "Sports", response.body
+    end
+
+end

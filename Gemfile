@@ -5,6 +5,7 @@ ruby '3.0.1'
 gem 'will_paginate', '~> 3.3.0'
 gem 'will_paginate-bootstrap4'
 gem 'rexml'
+gem 'rails-controller-testing'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
 # Use sqlite3 as the database for Active Record
